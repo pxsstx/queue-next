@@ -1,36 +1,163 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Queue Management System
+
+A real-time queue management system built with Next.js, Socket.io, and Express. This application allows users to join a queue and provides an admin interface to manage and call the next person in line.
+
+## Features
+
+- **Real-time Queue Management**: Live updates using Socket.io
+- **User Interface**: Simple form to join the queue with name
+- **Queue Status**: Real-time position tracking for users
+- **Admin Dashboard**: Manage queue, call next person, clear queue
+- **QR Code**: Easy access via QR code for mobile users
+- **Responsive Design**: Works on desktop and mobile devices
+
+## Tech Stack
+
+### Frontend
+- **Next.js 15** - React framework with App Router
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Styling
+- **Socket.io Client** - Real-time communication
+- **QRCode.react** - QR code generation
+
+### Backend
+- **Express.js** - Web server
+- **Socket.io** - Real-time bidirectional communication
+- **CORS** - Cross-origin resource sharing
+
+## Project Structure
+
+```
+queue-next/
+├── frontend/                 # Next.js frontend application
+│   ├── app/                 # App Router pages
+│   │   ├── admin/          # Admin dashboard
+│   │   ├── join/           # Join queue page
+│   │   ├── status/[id]/    # Queue status page
+│   │   └── page.tsx        # Home page
+│   ├── socket.ts           # Socket.io client configuration
+│   └── package.json
+├── backend/                 # Express.js backend server
+│   ├── index.js            # Main server file
+│   └── package.json
+└── README.md
+```
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js (v18 or higher)
+- npm or yarn
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd queue-next
+   ```
+
+2. **Install backend dependencies**
+   ```bash
+   cd backend
+   npm install
+   ```
+
+3. **Install frontend dependencies**
+   ```bash
+   cd ../frontend
+   npm install
+   ```
+
+### Running the Application
+
+1. **Start the backend server**
+   ```bash
+   cd backend
+   node index.js
+   ```
+   The backend will run on `http://localhost:4000`
+
+2. **Start the frontend development server**
+   ```bash
+   cd frontend
+   npm run dev
+   ```
+   The frontend will run on `http://localhost:3000`
+
+3. **Access the application**
+   - **Join Queue**: `http://localhost:3000/join`
+   - **Admin Dashboard**: `http://localhost:3000/admin`
+   - **Queue Status**: `http://localhost:3000/status/[id]` (where `[id]` is the queue ID)
+
+## Usage
+
+### For Users
+
+1. Navigate to `/join`
+2. Enter your name
+3. Click "Join" to enter the queue
+4. You'll be redirected to a status page showing your position
+5. Wait for your turn - you'll get an alert when called
+
+### For Administrators
+
+1. Navigate to `/admin`
+2. View the current queue and QR code
+3. Use "เรียกคิวถัดไป" (Call Next) to call the next person
+4. Use "ล้างคิวทั้งหมด" (Clear Queue) to reset the queue
+
+## API Endpoints
+
+### Socket.io Events
+
+- `add-queue`: Add a new person to the queue
+- `call-next`: Call the next person in queue
+- `clear-queue`: Clear all queue entries
+- `queue-updated`: Broadcast queue updates to all clients
+- `queue-called`: Notify when a specific person is called
+
+## Development
+
+### Frontend Scripts
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev      # Start development server
+npm run build    # Build for production
+npm run start    # Start production server
+npm run lint     # Run ESLint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Backend Scripts
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+node index.js    # Start the server
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Configuration
 
-## Learn More
+### Socket.io Configuration
 
-To learn more about Next.js, take a look at the following resources:
+The backend is configured to accept connections from any origin (`*`) for development. For production, you should restrict this to your specific domain.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Port Configuration
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Backend: Port 4000
+- Frontend: Port 3000
 
-## Deploy on Vercel
+## Contributing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+
+This project is licensed under the ISC License.
+
+## Support
+
+For support or questions, please open an issue in the repository. 
