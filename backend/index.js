@@ -14,6 +14,10 @@ const io = new Server(server, {
 
 let queue = [];
 
+// Middleware
+app.use(cors());
+app.use(express.json());
+
 io.on("connection", (socket) => {
   console.log("🔌 Client connected");
 
@@ -27,12 +31,29 @@ io.on("connection", (socket) => {
   socket.on("call-next", () => {
     const next = queue.shift();
     io.emit("queue-updated", queue);
-    if (next) io.emit("queue-called", next.id);
+    
+    if (next) {
+      io.emit("queue-called", next.id);
+    }
   });
 
   socket.on("clear-queue", () => {
     queue = [];
-    io.emit("queue-updated", queue); // อัปเดตให้ทุก client
+    io.emit("queue-updated", queue);
+    console.log("🧹 Queue cleared");
+  });
+
+  socket.on("disconnect", () => {
+    console.log("🔌 Client disconnected");
+  });
+});
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.json({ 
+    status: 'OK', 
+    queueLength: queue.length,
+    timestamp: new Date().toISOString()
   });
 });
 
